@@ -6,8 +6,8 @@
 		<echo message="Starting: CSS and JS minification"/>
 		
 		<!-- Compress the JS files with Google Closure Compiler -->
-		<apply executable="java" parallel="false" dest="${basedir}/${project.name}">
-			<fileset dir="${basedir}${file.separator}${project.name}" includes="**/*.js" excludes="**/*-min.js" />
+		<apply executable="java" parallel="false" dest="${basedir}/${project.key}">
+			<fileset dir="${basedir}${file.separator}${project.key}" includes="**/*.js" excludes="**/*-min.js" />
 			<arg line="-jar"/>
 			<arg path="${master.lib}${file.separator}${master.lib.jar.compiler}" />
 			<arg line="--js"/>
@@ -18,8 +18,8 @@
 		</apply>
 		
 		<!-- Compress the CSS files with Yahoo UI Compressor -->
-		<apply executable="java" parallel="false" dest="${basedir}/${project.name}">
-			<fileset dir="${basedir}${file.separator}${project.name}" includes="**/*.css" excludes="**/*-min.css" />
+		<apply executable="java" parallel="false" dest="${basedir}/${project.key}">
+			<fileset dir="${basedir}${file.separator}${project.key}" includes="**/*.css" excludes="**/*-min.css" />
 			<arg line="-jar"/>
 			<arg path="${master.lib}${file.separator}${master.lib.jar.compressor}" />
 			<arg line="-v"/>
@@ -41,6 +41,9 @@
 		<!-- Make the log directory -->
 		<mkdir dir="${build.logs}" />
 		
+		<!-- Make the unit test directory -->
+		<mkdir dir="${build.dist}/unit" />
+		
 		<!-- Define log file -->
 		<record name="${build.logs}${file.separator}${build.logs.ant}" />
 		
@@ -53,10 +56,10 @@
 		<property name="project.version" value="${project.version.major}.${project.version.minor}.${project.version.build}"/>
 		
 		<!-- Set the script directory -->
-		<property name="build.script" value="${basedir}${file.separator}${project.name}${file.separator}script${file.separator}"/>
+		<property name="build.script" value="${basedir}${file.separator}${project.key}${file.separator}script${file.separator}"/>
 		
 		<!-- Set the style directory -->
-		<property name="build.style" value="${basedir}${file.separator}${project.name}${file.separator}style${file.separator}"/>
+		<property name="build.style" value="${basedir}${file.separator}${project.key}${file.separator}style${file.separator}"/>
 		
 		<echo message="Finished: Environment Preparation"/>
 	</target>
@@ -137,7 +140,6 @@
 			<fileset dir="${test.jslint.filePath}" casesensitive="yes">
 				<include name="**/*.js"/>
 				<exclude name="**/*-min.js"/>
-				<exclude name="script/markitup/jquery.markitup.js"/>
 			</fileset>
 		</jslint>
 		
@@ -147,15 +149,14 @@
 	<target name="testMXUnit" depends="prepare" description="Runs the Unit Tests">
 		<echo message="Starting: Unit Tests"/>
 		
-		<!-- Make the unit test directory -->
-		<mkdir dir="${build.dist}/unit" />
-		
 		<!-- Load ANT tasks -->
 		<taskdef name="mxunittask" classname="org.mxunit.ant.MXUnitAntTask" classpath="${master.lib}${file.separator}${master.lib.jar.mxunit}" />
 		
 		<mxunittask server="${test.host}" port="${test.port}" outputdir="${build.dist}/unit" defaultrunner="${test.mxunit.defaultrunner}" errorproperty="test.mxunit.error" failureproperty="test.mxunit.failure" verbose="true">
 			<directory path="${basedir}/test" componentPath="${test.mxunit.componentpath}" recurse="true" />
 		</mxunittask>
+		
+		<fail if="test.mxunit.failure" message="Unit tests failed" />
 		
 		<echo message="Finished: Unit Tests"/>
 	</target>
