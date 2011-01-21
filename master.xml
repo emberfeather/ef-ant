@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <project name="ef-ant" basedir=".">
-	<property file="${basedir}/settings/build.properties"/>
+	<dirname property="ef-ant.basedir" file="${ant.file.ef-ant}"/>
+	
+	<property file="${ef-ant.basedir}/settings/default.properties"/>
+	<property file="${ef-ant.basedir}/settings/build.properties"/>
 	
 	<target name="minify" depends="prepare" description="Minify the CSS and JS files">
 		<echo message="Starting: CSS and JS minification"/>
