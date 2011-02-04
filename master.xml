@@ -105,8 +105,8 @@
 			<args>
 				<arg value="release" />
 				<arg value="finish" />
-				<arg value="${project.version}" />
 				<arg value="-m 'Tagging version ${project.version}'" />
+				<arg value="'${project.version}'" />
 			</args>
 		</git>
 		
