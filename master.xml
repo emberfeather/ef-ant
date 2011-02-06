@@ -5,7 +5,23 @@
 	<property file="${ef-ant.basedir}/settings/default.properties"/>
 	<property file="${ef-ant.basedir}/settings/build.properties"/>
 	
-	<target name="minify" depends="prepare" description="Minify the CSS and JS files">
+	<target name="lessCSS" depends="prepare" if="options.lessCSS" description="Run the less compiler on less files">
+		<echo message="Starting: Less CSS Compilation"/>
+		
+		<!-- Compile the CSS files with lessc -->
+		<apply executable="${compile.less.path}lessc" parallel="false" dest="${basedir}${file.separator}${project.name}">
+			<fileset dir="${basedir}${file.separator}${project.name}" includes="**/*.less" />
+			<srcfile/>
+			<mapper id="lessOutput" type="glob" from="*.less" to="${project.name}${file.separator}*.css"/>
+			<redirector>
+				<outputmapper refid="lessOutput" />
+			</redirector>
+		</apply>
+		
+		<echo message="Finished: Less CSS Compilation"/>
+	</target>
+	
+	<target name="minify" depends="prepare,lessCSS" description="Minify the CSS and JS files">
 		<echo message="Starting: CSS and JS minification"/>
 		
 		<!-- Compress the JS files with Google Closure Compiler -->
