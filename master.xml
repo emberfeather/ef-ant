@@ -8,11 +8,12 @@
 	<target name="compileLessCSS" depends="prepare" if="options.lessCSS" description="Run the less compiler on less files">
 		<echo message="Starting: Less CSS Compilation"/>
 		
-		<!-- Compile the CSS files with lessc -->
-		<apply executable="${compile.less.path}lessc" parallel="false" dest="${basedir}${file.separator}${project.name}">
+		<!-- Compile the minified CSS files with lessc -->
+		<apply executable="${compile.less.path}lessc" parallel="false" dest="${basedir}${file.separator}${project.name}" verbose="true">
 			<fileset dir="${basedir}${file.separator}${project.name}" includes="**/*.less" />
 			<srcfile/>
-			<mapper type="glob" from="*.less" to="*.css"/>
+			<arg value="-x"/>
+			<mapper type="glob" from="*.less" to="*-min.css"/>
 			<targetfile/>
 		</apply>
 		
