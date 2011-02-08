@@ -9,8 +9,8 @@
 		<echo message="Starting: Less CSS Compilation"/>
 		
 		<!-- Compile the minified CSS files with lessc -->
-		<apply executable="${compile.less.path}lessc" parallel="false" dest="${basedir}${file.separator}${project.name}" verbose="true">
-			<fileset dir="${basedir}${file.separator}${project.name}" includes="**/*.less" />
+		<apply executable="${compile.less.path}lessc" parallel="false" dest="${basedir}${file.separator}${project.key}" verbose="true">
+			<fileset dir="${basedir}${file.separator}${project.key}" includes="**/*.less" />
 			<srcfile/>
 			<arg value="-x"/>
 			<mapper type="glob" from="*.less" to="*-min.css"/>
