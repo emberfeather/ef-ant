@@ -125,11 +125,7 @@
 		</git>
 		
 		<!-- Update the build version -->
-		<propertyfile file="${build}/settings/version.properties" comment="Version properties">
-			<entry key="project.version.build" value="1" operation="+" type="int"/>
-		</propertyfile>
-		
-		<antcall target="versionChanged" inheritall="false" inheritrefs="false"></antcall>
+		<antcall target="versionNextBuild" inheritall="false" inheritrefs="false"></antcall>
 		
 		<!-- Commit the updated version files -->
 		<git command="commit" dir="${basedir}">
@@ -222,6 +218,18 @@
 			byline="true"/>
 		
 		<echo message="Finished: Version Changed"/>
+	</target>
+	
+	<target name="versionNextBuild" description="Increment the version to the next build point number">
+		<echo message="Starting: Increment To Next Build Point"/>
+		
+		<propertyfile file="${build}/settings/version.properties" comment="Version properties">
+			<entry key="project.version.build" value="1" operation="+" type="int"/>
+		</propertyfile>
+		
+		<antcall target="versionChanged" inheritall="false" inheritrefs="false"></antcall>
+		
+		<echo message="Finished: Increment To Next Build Point"/>
 	</target>
 	
 	<target name="versionNextMajor" description="Increment the version to the next major point number">
