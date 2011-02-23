@@ -107,7 +107,6 @@
 			byline="true"
 			/>
 		
-		<!-- Finish a release branch -->
 		<git command="commit" dir="${basedir}">
 			<args>
 				<arg value="-a" />
