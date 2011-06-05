@@ -165,7 +165,7 @@
 		<!-- Load ANT tasks -->
 		<taskdef name="mxunittask" classname="org.mxunit.ant.MXUnitAntTask" classpath="${master.lib}${file.separator}${master.lib.jar.mxunit}" />
 		
-		<mxunittask server="${test.host}" port="${test.port}" outputdir="${build.dist}/unit" defaultrunner="${test.mxunit.defaultrunner}" errorproperty="test.mxunit.error" failureproperty="test.mxunit.failure" verbose="true">
+		<mxunittask server="${test.host}" port="${test.port}" outputdir="${build.dist}/unit" defaultrunner="${test.context}${test.mxunit.defaultrunner}" errorproperty="test.mxunit.error" failureproperty="test.mxunit.failure" verbose="true">
 			<directory path="${basedir}/test" componentPath="${test.mxunit.componentpath}" recurse="true" />
 		</mxunittask>
 		
@@ -178,7 +178,7 @@
 		<echo message="Starting: VarScoper Tests"/>
 		
 		<!-- Save the results as a csv -->
-		<get dest="${test.varscoper.resultFile}" src="http://${test.host}:${test.port}${test.varscoper.base}/varScoper.cfm?displayformat=csv&amp;filePath=${test.varscoper.filePath}&amp;recursiveDirectory=${test.varscoper.recurse}"/>
+		<get dest="${test.varscoper.resultFile}" src="http://${test.host}:${test.port}${test.context}${test.varscoper.base}/varScoper.cfm?displayformat=csv&amp;filePath=${test.varscoper.filePath}&amp;recursiveDirectory=${test.varscoper.recurse}"/>
 		
 		<loadfile srcfile="${test.varscoper.resultFile}" property="test.varscoper.csv">
 			<filterchain>
