@@ -35,6 +35,19 @@
 			<targetfile/>
 		</apply>
 		
+		<!-- Evaluate the GSS files with Google Closure Stylesheets -->
+		<apply executable="java" parallel="false" dest="${basedir}/${project.key}">
+			<fileset dir="${basedir}${file.separator}${project.key}" includes="**/*.gss" />
+			<arg line="-jar"/>
+			<arg path="${master.lib}${file.separator}${master.lib.jar.closure.stylesheets}" />
+			<arg line="--copyright-notice '/* Generated from the GSS file */ '"/>
+			<arg line="--pretty-print"/>
+			<arg line="-o"/>
+			<mapper type="glob" from="*.gss" to="*.css"/>
+			<targetfile/>
+			<srcfile/>
+		</apply>
+		
 		<!-- Compress the CSS files with Yahoo UI Compressor -->
 		<apply executable="java" parallel="false" dest="${basedir}/${project.key}">
 			<fileset dir="${basedir}${file.separator}${project.key}" includes="**/*.css" excludes="**/*-min.css" />
